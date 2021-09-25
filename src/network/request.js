@@ -2,8 +2,8 @@ import axios from 'axios'
 
 export function request(config){
     const instance = axios.create({
-        baseURL: 'http://123.57.20.251:8080/web',
-        timeout: 6000
+        baseURL: 'http://localhost:1111/web',
+        timeout: 60000
     })
 
     //axios拦截器
