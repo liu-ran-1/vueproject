@@ -29,7 +29,7 @@ export default {
     text-align: center;
     font-size: 12px;
     width: 300px;
-}
+} 
 .recommend-item span{
     width: 300px;
 }
