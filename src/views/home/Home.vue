@@ -1,8 +1,17 @@
 <template>
   <div id="home">
-    <nav-bar>
-      <div slot="center" class="home-nav">购物街</div>
-    </nav-bar>
+    <div class="nav-bar">
+      <nav-bar>
+        <div slot="center" class="home-nav">购物街</div>
+      </nav-bar>
+    </div>
+    <div class="home-title">
+      <tr>
+        <td>序号</td>
+        <td>名称</td>
+        <td>描述</td>
+      </tr>
+    </div>
     <div class="home-data">
       <tr v-for="item in result" :key="item.id">
         <td>{{ item.id }}</td>
@@ -11,14 +20,14 @@
       </tr>
     </div>
     <home-recommend-view :recommends="recommends" />
-    <tab-control :titles="titles" />
-    <goods-list :goods="goods['pop'].list" />
+    <tab-control :titles="titles" @tabClick="tabClick" />
+    <goods-list :goods="goods[currentType].list" />
   </div>
 </template>
 
 <script>
 import { getHomeMultiData, getHomeGoods } from "network/home";
-import GoodsList from 'components/content/goods/GoodsList.vue';
+import GoodsList from "components/content/goods/GoodsList.vue";
 
 const NavBar = () => import("components/common/navbar/Navbar");
 const HomeRecommendView = () => import("./childComps/HomeRecommendView");
@@ -29,7 +38,7 @@ export default {
     NavBar,
     HomeRecommendView,
     TabControl,
-    GoodsList
+    GoodsList,
   },
   data() {
     return {
@@ -41,6 +50,7 @@ export default {
         news: { page: 0, list: [] },
         sell: { page: 0, list: [] },
       },
+      currentType: "pop",
     };
   },
   created() {
@@ -51,6 +61,20 @@ export default {
     this.getHomeGoods("sell");
   },
   methods: {
+    tabClick(index) {
+      switch (index) {
+        case 1:
+          this.currentType = "pop";
+          break;
+        case 2:
+          this.currentType = "news";
+          break;
+        case 3:
+          this.currentType = "sell";
+          break;
+      }
+    },
+
     getHomeMultiData() {
       getHomeMultiData().then((res) => {
         this.result = res;
@@ -70,18 +94,35 @@ export default {
 </script>
 
 <style>
-.home-nav {
+.nav-bar {
   background-color: var(--color-tint);
+  text-align-last: center;
 }
 .home-data {
-  background-color: blue;
+  background-color: #fefefe;
 }
 
 .home-data tr {
-  background-color: aqua;
-  text-align: center;
+  display: block;
+  text-align: left;
+}
+
+.home-title tr {
+  display: block;
+  text-align: left;
+  background-color: palevioletred;
 }
 .home-data tr td {
+  display: inline-block;
+  line-height: 30px;
+  width: 30%;
+  height: 30px;
+}
+
+.home-title tr td {
+  display: inline-block;
+  line-height: 30px;
+  width: 30%;
   height: 30px;
 }
 .tab-control {
