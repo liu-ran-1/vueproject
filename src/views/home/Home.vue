@@ -3,7 +3,8 @@
     <nav-bar>
       <div slot="center" class="home-nav">购物街</div>
     </nav-bar>
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll"  @pullingUp="loadMore"
+    :pull-up-load="true">
       <div class="home-data">
         <tr v-for="item in result" :key="item.id">
           <td>{{ item.id }}</td>
@@ -13,7 +14,7 @@
       </div>
       <home-recommend-view :recommends="recommends" />
       <tab-control :titles="titles" />
-      <goods-list :goods="goods['pop'].list" />
+      <goods-list :goods="goods[currentType].list" />
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
@@ -47,8 +48,10 @@ export default {
         pop: { page: 0, list: [] },
         news: { page: 0, list: [] },
         sell: { page: 0, list: [] },
-        isShowBackTop:false
       },
+      currentType:1,
+      isShowBackTop:false
+
     };
   },
   created() {
@@ -64,6 +67,9 @@ export default {
     },
     contentScroll(position){
         this.isShowBackTop = -(position.y) >1000
+    },
+    loadMore(){
+      this.getHomeGoods(this.currentType);
     },
 
 /**
@@ -81,6 +87,7 @@ export default {
       getHomeGoods(type, page).then((res) => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+        this.$refs.scroll.finishPullUp();
       });
     },
   },
