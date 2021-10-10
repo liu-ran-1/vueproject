@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <login-register/>
     <keep-alive exclude="Detail">
       <router-view />
     </keep-alive>
@@ -9,10 +10,12 @@
 
 <script>
 import MainTabBar from "components/content/mainTabBar/MainTabBar";
+const LoginRegister = ()=>import('views/loginregister/LoginRegister')
 export default {
   name: "App",
   components: {
     MainTabBar,
+    LoginRegister
   },
 };
 </script>

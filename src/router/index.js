@@ -7,14 +7,19 @@ const Category = ()=>import('../views/category/Category')
 const Cart = ()=>import('../views/cart/Cart')
 const Profile = ()=>import('../views/profile/Profile')
 const Detail = ()=>import('../views/detail/Detail')
+const LoginRegister = ()=>import('views/loginregister/LoginRegister')
 Vue.use(Router)
 
 const routes = [
   {
     path: '/',
     name: 'App',
-    redirect: '/home',
+    redirect: '/login',
     component: App
+  },
+  {
+    path: '/login',
+    component: LoginRegister
   },
   {
     path: '/home',

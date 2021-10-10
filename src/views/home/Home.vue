@@ -49,7 +49,7 @@
         ref="tabControl"
         :class="{ fixed: isTabFixed }"
       />
-      <goods-list :goods="goods[currentType].list" />
+      <!-- <goods-list :goods="goods[currentType].list" /> -->
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop" />
 
@@ -64,7 +64,7 @@ import Scroll from "components/common/Scroll.vue";
 import BackTop from "components/content/backTop/BackTop.vue";
 
 
-const NavBar = () => import("components/common/navbar/Navbar");
+const NavBar = () => import("components/common/navbar/NavBar");
 const HomeRecommendView = () => import("./childComps/HomeRecommendView");
 const TabControl = () => import("components/content/tabControl/TabControl");
 import { debounce } from "../../common/utils";
@@ -100,10 +100,10 @@ export default {
   },
   created() {
     //请求多个数据
-    this.getHomeMultiData();
-    this.getHomeGoods("pop");
-    this.getHomeGoods("news");
-    this.getHomeGoods("sell");
+    // this.getHomeMultiData();
+    // this.getHomeGoods("pop");
+    // this.getHomeGoods("news");
+    // this.getHomeGoods("sell");
   },
   mounted() {
     //图片完成的事件监听

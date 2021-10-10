@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import NavBar from 'components/common/navbar/NavBar.vue'
+import NavBar from 'components/common/navbar/NavBar'
 import {mapGetters} from 'vuex'
-import CartList from './childComps/CartList.vue'
+import CartList from './childComps/CartList'
 
 export default {
     name:'Cart',

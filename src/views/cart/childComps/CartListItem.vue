@@ -23,7 +23,6 @@
 
 <script>
 import CheckButton from "components/common/checkButton/CheckButton";
-import CheckButton from "../../../components/common/checkButton/CheckButton.vue";
 export default {
   name: "CartListItem",
   components: {
