@@ -1,28 +1,8 @@
 <template>
   <div id="home">
-
-    <div class="nav-bar">
-      <nav-bar>
-        <div slot="center" class="home-nav">购物街</div>
-      </nav-bar>
-    </div>
-    <div class="home-title">
-      <tr>
-        <td>序号</td>
-        <td>名称</td>
-        <td>描述</td>
-      </tr>
-    </div>
-    <div class="home-data">
-      <tr v-for="item in result" :key="item.id">
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.desription }}</td>
-      </tr>
-    </div>
-    <home-recommend-view :recommends="recommends" />
-    <tab-control :titles="titles" @tabClick="tabClick" />
-    <goods-list :goods="goods[currentType].list" />
+    <!-- <home-recommend-view :recommends="recommends" /> -->
+    <!-- <tab-control :titles="titles" @tabClick="tabClick" /> -->
+    <!-- <goods-list :goods="goods[currentType].list" /> -->
 
     <nav-bar>
       <div slot="center" class="home-nav">购物街</div>
@@ -49,9 +29,9 @@
         ref="tabControl"
         :class="{ fixed: isTabFixed }"
       />
-      <goods-list :goods="goods[currentType].list" />
+      <!-- <goods-list :goods="goods[currentType].list" /> -->
     </scroll>
-    <back-top @click.native="backClick" v-show="isShowBackTop" />
+    <!-- <back-top @click.native="backClick" v-show="isShowBackTop" /> -->
 
   </div>
 </template>
@@ -64,9 +44,9 @@ import Scroll from "components/common/Scroll.vue";
 import BackTop from "components/content/backTop/BackTop.vue";
 
 
-const NavBar = () => import("components/common/navbar/Navbar");
-const HomeRecommendView = () => import("./childComps/HomeRecommendView");
-const TabControl = () => import("components/content/tabControl/TabControl");
+import NavBar from "components/common/navbar/Navbar";
+import HomeRecommendView from "./childComps/HomeRecommendView";
+import TabControl from "components/content/tabControl/TabControl";
 import { debounce } from "../../common/utils";
 export default {
   name: "Home",

@@ -2,6 +2,7 @@
   <div id="detail">
     <detail-nav-bar @titleClick="titleClick"></detail-nav-bar>
     <detail-swiper :topImages="topImages"></detail-swiper>
+    <toast :message="message" :show="show"/>
   </div>
 </template>
 
@@ -10,11 +11,14 @@ import DetailNavBar from "./childComponents/DetailNavBar.vue";
 import { Shop, getDetail } from "network/detail";
 import DetailSwiper from "./childComponents/DetailSwiper.vue";
 import { debounce } from "../../common/utils";
+import{mapActions} from 'vuex'
+import Toast from 'components/common/toast/Toast.vue';
 export default {
   name: "Detail",
   components: {
     DetailNavBar,
     DetailSwiper,
+    Toast,
   },
   data() {
     return {
@@ -23,6 +27,8 @@ export default {
       shop: {},
       themeTopYs: [0, 1000, 2000, 3000],
       getThemeTopY: null,
+      message:'',
+      show:false
     };
   },
   created() {
@@ -48,6 +54,7 @@ export default {
   mounted() {},
   updated() {},
   methods: {
+      ...mapActions(['addToCart']),
     //子组件发出的   
     titleClick(index) {
       console.log(index);
@@ -62,7 +69,18 @@ export default {
         const product = {}
         product.iid = this.iid;
         // this.$store.commit('addCart', product)
-        this.$store.dispatch('addCart', product)
+        this.addToCart(product).then(res=>{
+            console.log(res)
+            // this.show = true;
+            // this.message = res;
+            // setTimeout(() => {
+            //     this.show = false
+            // }, 1500);
+            this.$toast.show(res,2000)
+        })
+        // this.$store.dispatch('addCart', product).then(res=>{
+        //     console.log(res)
+        // })
     }
   },
 };

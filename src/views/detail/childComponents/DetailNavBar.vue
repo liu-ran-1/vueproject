@@ -15,9 +15,9 @@
 </template>
 
 <script>
-const NavBar = () => import("components/common/navbar/Navbar");
+import NavBar from "components/common/navbar/Navbar"
 export default {
-  name: "DetailNavBar",
+  name: 'DetailNavBar',
   components: {
     NavBar,
   },
