@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { login,register } from "network/login";
+import { login, register } from "network/login";
 export default {
   name: "login-register",
   data() {
@@ -70,12 +70,20 @@ export default {
     //http请求
     login() {
       const self = this;
+      console.log(self.form)
       if (self.form.useremail != "" && self.form.userpwd != "") {
         login(this.form)
           .then((res) => {
+            console.log('login:'+res)
             switch (res.state) {
               case 0:
+                console.log(res.state)
                 alert("登陆成功！");
+                //跳转到首页
+                this.$router.push({
+                  path: "/main",
+                  params: {},
+                });
                 break;
               case -1:
                 this.emailError = true;
@@ -93,7 +101,6 @@ export default {
       }
     },
     register() {
-
       const self = this;
       if (
         self.form.username != "" &&
@@ -102,7 +109,7 @@ export default {
       ) {
         register(this.form)
           .then((res) => {
-            switch (res.data) {
+            switch (res) {
               case 0:
                 alert("注册成功！");
                 this.login();

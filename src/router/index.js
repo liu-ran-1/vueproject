@@ -8,6 +8,9 @@ const Cart = ()=>import('../views/cart/Cart')
 const Profile = ()=>import('../views/profile/Profile')
 const Detail = ()=>import('../views/detail/Detail')
 const LoginRegister = ()=>import('views/loginregister/LoginRegister')
+const Test = ()=>import('views/test/Test')
+const Main = ()=>import('views/main/Main')
+const Phone = ()=>import('views/phone/Phone')
 Vue.use(Router)
 
 const routes = [
@@ -16,6 +19,18 @@ const routes = [
     name: 'App',
     redirect: '/login',
     component: App
+  },
+  {
+    path: '/test',
+    component: Test
+  },
+  {
+    path: '/phone',
+    component: Phone
+  },
+  {
+    path: '/main',
+    component: Main
   },
   {
     path: '/login',

@@ -108,7 +108,7 @@ export default {
   mounted() {
     //图片完成的事件监听
 
-    const refresh = debounce(this.$refs.scroll.refresh, 500);
+    // const refresh = debounce(this.$refs.scroll.refresh, 500);
 
     this.$bus.on("itemImageLoad", () => {
       refresh();
