@@ -4,9 +4,12 @@ import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 
 Vue.use(Vuex)
+Vue.use(ElementUI)
 
 const state = {
   cartList: []

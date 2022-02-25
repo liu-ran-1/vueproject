@@ -44,9 +44,9 @@ import Scroll from "components/common/Scroll.vue";
 import BackTop from "components/content/backTop/BackTop.vue";
 
 
-import NavBar from "components/common/navbar/Navbar";
-import HomeRecommendView from "./childComps/HomeRecommendView";
-import TabControl from "components/content/tabControl/TabControl";
+const NavBar = () => import("components/common/navbar/NavBar");
+const HomeRecommendView = () => import("./childComps/HomeRecommendView");
+const TabControl = () => import("components/content/tabControl/TabControl");
 import { debounce } from "../../common/utils";
 export default {
   name: "Home",
@@ -80,15 +80,15 @@ export default {
   },
   created() {
     //请求多个数据
-    this.getHomeMultiData();
-    this.getHomeGoods("pop");
-    this.getHomeGoods("news");
-    this.getHomeGoods("sell");
+    // this.getHomeMultiData();
+    // this.getHomeGoods("pop");
+    // this.getHomeGoods("news");
+    // this.getHomeGoods("sell");
   },
   mounted() {
     //图片完成的事件监听
 
-    const refresh = debounce(this.$refs.scroll.refresh, 500);
+    // const refresh = debounce(this.$refs.scroll.refresh, 500);
 
     this.$bus.on("itemImageLoad", () => {
       refresh();

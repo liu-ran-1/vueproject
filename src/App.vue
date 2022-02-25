@@ -1,22 +1,21 @@
 <template>
   <div id="app">
+
+    <!-- <login-register/> -->
     <!-- <keep-alive exclude="Detail"> -->
+      
       <router-view />
     <!-- </keep-alive> -->
-    <!-- <main-tab-bar /> -->
-    <login />
+    <!-- <main-top-tab-bar /> -->
   </div>
 </template>
 
 <script>
 import MainTabBar from "components/content/mainTabBar/MainTabBar";
 import Login from 'views/login/Login.vue';
+
 export default {
-  name: "App",
-  components: {
-    MainTabBar,
-    Login,
-  },
+  name: "App"
 };
 </script>
 
