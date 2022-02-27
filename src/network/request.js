@@ -9,7 +9,9 @@ export function request(config){
 
     //axios拦截器
     instance.interceptors.request.use(config=>{
-        console.log(config);
+        console.log('config:'+config);
+        console.log('param'+config.params)
+        console.log('data',config.data)
         //拿到之后进行放行
         return config;
     },error=>{

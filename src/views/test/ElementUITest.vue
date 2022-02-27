@@ -25,7 +25,7 @@
               <el-dropdown-item>删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>王小虎</span>
+          <span>刘然</span>
         </el-header>
         <el-main>
           <el-table
@@ -48,12 +48,12 @@
             <el-table-column fixed="right" label="操作" width="100">
               <template slot-scope="scope">
                 <el-button
-                  @click="handleClick(scope.row)"
+                  @click="handleClick(scope.row,true)"
                   type="text"
                   size="small"
                   >查看</el-button
                 >
-                <el-button type="text" size="small" @click="editClick(scope.row)">编辑</el-button>
+                <el-button type="text" size="small" @click="handleClick(scope.row,false)">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -66,61 +66,34 @@
         <el-form :model="currentRow"  ref="empForm">
             <el-row>
               <el-col :span="6">
-                            <el-form-item label="姓名:" prop="name">
+                            <el-form-item label="姓名:" prop="name" > 
                                 <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.name"
-                                          placeholder="请输入员工姓名"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <!-- <el-col :span="6">
-                            <el-form-item label="姓名:" prop="name">
-                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.name"
-                                          placeholder="请输入员工姓名"></el-input>
+                                          placeholder="请输入员工姓名" :disabled="this.disabled"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="姓名:" prop="name">
-                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.name"
-                                          placeholder="请输入员工姓名"></el-input>
-                            </el-form-item> -->
-                        <!-- </el-col> -->
+                            <el-form-item label="日期:" prop="date">
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.date"
+                                          placeholder="请输入日期" :disabled="this.disabled"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="地址:" prop="address">
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.address"
+                                          placeholder="请输入地址" :disabled="this.disabled"></el-input>
+                            </el-form-item> 
+                        </el-col>
             </el-row>
+            <div :hidden="this.disabled">
+                <el-button type="primary" icon="el-icon-edit" @click="saveData()">保存</el-button>
+            </div>
+            
           </el-form>
         </el-dialog>
-        <el-dialog :title="title"
-                :visible.sync="dialogVisibleEdit"
-                width="80%">
-        <div>
-          <el-form :model="currentRow" :rules="rules" ref="empForm">
-            <el-row>
-              <el-col :span="6">  
-                            <el-form-item label="姓名:" prop="name">
-                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.name"
-                                          placeholder="请输入员工姓名"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="姓名:" prop="name">
-                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.name"
-                                          placeholder="请输入员工姓名"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="姓名:" prop="name">
-                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.name"
-                                          placeholder="请输入员工姓名"></el-input>
-                            </el-form-item>
-                       </el-col> 
-            </el-row>
-          </el-form>
-        </div>
-        </el-dialog>
-     <div class="block">
-    
-  </div>
   <div class="block">
     <el-pagination
       @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+      @current-change="handleCurrentChangePage"
       :current-page="currentPage"
       :page-sizes="[15, 30, 50, 100]"
       :page-size="pageSize"
@@ -135,7 +108,7 @@
 </template>
 
 <script>
-import { test,menu } from "network/test";
+import { test,menu,saveRow } from "network/test";
 export default {
   name: "ElementUITest",
   data() {
@@ -148,12 +121,13 @@ export default {
        showIndexList:null,
        title:"",
        dialogVisible:false,
-       dialogVisibleEdit:false,
         currentRow:{},
         totalSize:0,
         currentPage:1,
         pageSize:15,
         param:{},
+        disabled:true,
+        state:null,
         rules: {
                     name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
                     gender: [{required: true, message: '请输入性别', trigger: 'blur'}],
@@ -206,19 +180,33 @@ export default {
   },
 
   methods: {
+    saveData(){
+    saveRow(this.currentRow).then((res) => {
+      console.log(res)
+        this.state = res.status;
+       
+      });
+       if(this.state === 0){
+          alert('保存成功');
+        }
+      this.dialogVisible=false;
+    },
      handleSizeChange(val) {
-        console.log(val);
+        this.pageSize = val;
+        this.tableDatas()
       },
      
     tableDatas() {
       console.log("achive tableData");
       this.param.currentPage = this.currentPage;
       this.param.pageSize = this.pageSize
+      console.log('page'+this.param.currentPage+',size:'+this.param.pageSize)
       test(this.param).then((res) => {
         this.result = res;
         this.tableData = res.obj.data;
         this.totalSize = res.obj.totalSize;
       });
+      console.log('tableData'+this.tableData)
     },
      menus() {
       console.log("menus tableData");
@@ -234,20 +222,23 @@ export default {
       this.$refs.singleTable.setCurrentRow(row);
     },
     handleCurrentChange(val) {
-      console.log('val'+val)
-      this.currentPage = val;
-      this.tableDatas();
-      this.currentRow = val;
+      console.log('handleCurrentChange val:'+val)
+      console.log('handleCurrentChange currentrow'+this.currentRow)
+      if(val !== null){
+        console.log('ssssddddd')
+        this.currentRow = val
+      }
+      
     },
-    handleClick() {
+     handleCurrentChangePage(val) {
+      this.currentPage = val
+       this.tableDatas()
+    },
+    handleClick(row,disable) {
      this.dialogVisible = true;
      this.title = "这个人的详细信息";
      //调用具体的这条明细数据
-    },
-     editClick() {
-     this.dialogVisibleEdit = true;
-     this.title = "这个人的详细信息编辑";
-     //调用具体的这条明细数据
+     this.disabled=disable
     },
     test() {
       test().then((res) => {

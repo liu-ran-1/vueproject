@@ -18,3 +18,13 @@ export function menu(param){
     });
 }
 
+export function saveRow(empdto){
+    return request({
+        method: 'put',
+        url:'/saveRow',
+         data:{
+            empdto
+         }
+    });
+}
+
