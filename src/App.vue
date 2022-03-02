@@ -3,19 +3,23 @@
 
     <!-- <login-register/> -->
     <!-- <keep-alive exclude="Detail"> -->
-      
-      <router-view />
+     <element-uI-test/>
+      <router-view/>
     <!-- </keep-alive> -->
     <!-- <main-top-tab-bar /> -->
+   
   </div>
 </template>
 
 <script>
-import MainTabBar from "components/content/mainTabBar/MainTabBar";
-import Login from 'views/login/Login.vue';
+import ElementUITest from './views/test/ElementUITest.vue'
 
 export default {
-  name: "App"
+  name: "App",
+  components:{
+    ElementUITest
+  }
+ 
 };
 </script>
 

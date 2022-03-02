@@ -13,14 +13,29 @@ const LoginRegister = ()=>import('views/loginregister/LoginRegister')
 const Test = ()=>import('views/test/Test')
 const Main = ()=>import('views/main/Main')
 const Phone = ()=>import('views/phone/Phone')
-const ElementUITest = ()=>import('views/test/ElementUITest')
+const Content = ()=>import('../views/test/Content.vue')
+const Setting = ()=>import('../views/test/Setting')
 Vue.use(Router)
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location){
+  return originalPush.call(this,location).catch(err=>err)
+}
 Vue.use(ElementUI)
 
 const routes = [
   {
     path: '/',
-    component: ElementUITest
+    component: App,
+    // children:[
+    //   {
+    //     path: '/content',
+    //     name:'content',
+    //     component: Content
+    //   },{
+    //     path: '/setting',
+    //     component: Setting
+    //   }
+    // ]
   },
   {
     path: '/test',
@@ -53,7 +68,15 @@ const routes = [
   },{
     path: '/detail',
     component: Detail
-  }
+  },
+    {
+        path: '/content',
+        name:'content',
+        component: Content
+      },{
+        path: '/setting',
+        component: Setting
+      }
 ]
 
 export default new Router({

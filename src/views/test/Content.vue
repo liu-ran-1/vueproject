@@ -1,37 +1,102 @@
 <template>
-  <div id="test">
-    <el-container style="height: 700px; border: 1px solid #eee">
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="showIndexList">
-          <el-submenu :index="m.index" v-for="m in menuList" :key="m.key">
-            <template slot="title"><i :class="m.menuType"></i>{{m.navName}}</template>
-            <el-menu-item-group v-for=" t in m.childList" :key="t.title">
-              <template slot="title">{{t.title}}
+<div style="width: 100%">
+
+
+      <!-- <el-container> -->
+        <el-header style="text-align: right; font-size: 12px">
+          <el-dropdown>
+            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click="test">查看</el-dropdown-item>
+              <el-dropdown-item>新增</el-dropdown-item>
+              <el-dropdown-item>删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span>刘然</span>
+        </el-header>
+        <el-main>
+          <el-table
+            :data="tableData"
+            height="550"
+            border
+            style="width: 100%"
+            highlight-current-row
+            ref="singleTable"
+            @current-change="handleCurrentChange"
+          >
+            <el-table-column type="selection" width="55" fixed="" >
+            </el-table-column>
+            <el-table-column type="index" width="50" label="序号" fixed=""> </el-table-column>
+            <el-table-column prop="date" label="日期" width="140">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名" width="120" fixed>
+            </el-table-column>
+            <el-table-column prop="address" label="地址"> </el-table-column>
+            <el-table-column fixed="right" label="操作" width="100">
+              <template slot-scope="scope">
+                <el-button
+                  @click="handleClick(scope.row,true)"
+                  type="text"
+                  size="small"
+                  >查看</el-button
+                >
+                <el-button type="text" size="small" @click="handleClick(scope.row,false)">编辑</el-button>
               </template>
-              <el-menu-item :index="option.route" v-for="option in t.options" :key="option.index" @click="changerouter(option.route)">{{option.name}}</el-menu-item>
-          
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
-      </el-aside>
-      <!-- <Content/> -->
-       <el-container>
-         <router-view/>
-        </el-container>
-    </el-container>
+            </el-table-column>
+          </el-table>
+        </el-main>
+    
+        <el-dialog
+                :title="title"
+                :visible.sync="dialogVisible"
+                width="80%">
+        <el-form :model="currentRow"  ref="empForm">
+            <el-row>
+              <el-col :span="6">
+                            <el-form-item label="姓名:" prop="name" > 
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.name"
+                                          placeholder="请输入员工姓名" :disabled="this.disabled"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="日期:" prop="date">
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.date"
+                                          placeholder="请输入日期" :disabled="this.disabled"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="地址:" prop="address">
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="currentRow.address"
+                                          placeholder="请输入地址" :disabled="this.disabled"></el-input>
+                            </el-form-item> 
+                        </el-col>
+            </el-row>
+            <div :hidden="this.disabled">
+                <el-button type="primary" icon="el-icon-edit" @click="saveData()">保存</el-button>
+            </div>
+            
+          </el-form>
+        </el-dialog>
+  <div class="block">
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChangePage"
+      :current-page="currentPage"
+      :page-sizes="[15, 30, 50, 100]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalSize">
+    </el-pagination>
   </div>
+  </div>
+      <!-- </el-container> -->
 </template>
 
 <script>
 import { test,menu,saveRow } from "network/test";
-import Content from './Content.vue'
 export default {
-  name: "ElementUITest",
-  components:{
-    Content
-  },
+  name: "Content",
   data() {
-   
 
     return {
       templateClassMenuType:['el-icon-menu','el-icon-setting','el-icon-setting','el-icon-setting'],
