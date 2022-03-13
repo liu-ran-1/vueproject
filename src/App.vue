@@ -4,7 +4,7 @@
     <!-- <login-register/> -->
     <!-- <keep-alive exclude="Detail"> -->
      <element-uI-test/>
-      <router-view/>
+      <!-- <router-view/> -->
     <!-- </keep-alive> -->
     <!-- <main-top-tab-bar /> -->
    
