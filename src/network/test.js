@@ -28,3 +28,11 @@ export function saveRow(empdto){
     });
 }
 
+export function chartsData(path,charParam){
+    return request({
+        url:path,
+        params:{
+            charParam
+         }
+    });
+}
