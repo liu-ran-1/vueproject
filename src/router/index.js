@@ -18,6 +18,7 @@ const Content = ()=>import('../views/test/Content.vue')
 const Setting = ()=>import('../views/test/Setting')
 const PersonSetting = ()=>import('../views/test/PersonSetting')
 const BasicBar = ()=>import('../views/test/BasicBar')
+const Map = ()=>import('../views/test/Map')
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location){
@@ -30,7 +31,7 @@ Vue.prototype.$echarts = echarts
 const routes = [
   {
     path: '/',
-    component: Content,
+    component: LoginRegister,
     // children:[
     //   {
     //     path: '/content',
@@ -87,6 +88,9 @@ const routes = [
       },{
         path: '/basicBar',
         component: BasicBar
+      },{
+        path: '/map',
+        component: Map
       }
 ]
 

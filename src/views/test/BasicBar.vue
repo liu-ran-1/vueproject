@@ -61,12 +61,7 @@ export default {
             data: [],
             type: "bar",
             stack: "x",
-          },
-          {
-            data: [],
-            type: "bar",
-            stack: "x",
-          },
+          }
         ],
   tooltip: {
             trigger: 'axis',
@@ -172,7 +167,7 @@ export default {
       chartsData("/chartsData", this.param).then((res) => {
         // this.option = res.obj;
         this.option.series[0].data = res.obj.series[0];
-        this.option.series[1].data = res.obj.series[1];
+        // this.option.series[1].data = res.obj.series[1];
         this.option.xAxis.data = res.obj.xAxis;
          echarts.init(this.$refs.chart1).setOption(this.option, true);
       });
