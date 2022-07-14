@@ -31,7 +31,7 @@ Vue.prototype.$echarts = echarts
 const routes = [
   {
     path: '/',
-    component: LoginRegister,
+    redirect: '/login'
     // children:[
     //   {
     //     path: '/content',
